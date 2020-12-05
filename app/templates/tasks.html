@@ -23,7 +23,7 @@
             <tr>
                 <td><p>{{ task.address }}</p></td>
                 <td><p>{{ task.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p></td>
-                <td><p>{{ task.task_status }}</p></td>
+                <td><p>{{ task.task_status.name }}</p></td>
                 <td><p>{{ task.http_status }}</p></td>
             </tr>
         {% endfor %}
