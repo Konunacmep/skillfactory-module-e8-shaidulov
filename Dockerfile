@@ -17,5 +17,3 @@ ENV DATABASE_URL=postgresql://postgres:123456@postgres:5432/queue
 ENV BROKER_URL=redis://redis:6379/0
 
 RUN chmod u+x ./entrypoint.sh
-
-CMD [ "flask", "run" ]
