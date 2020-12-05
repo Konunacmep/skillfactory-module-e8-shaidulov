@@ -1,20 +1,5 @@
 version: "3.8"
 services:
-  counter:
-    build: .
-    entrypoint: ./entrypoint.sh
-    ports:
-      - "5000:5000"
-    depends_on:
-      - postgres
-      - redis
-      - celery
-  celery:
-    build: .
-    command: celery --app=app.celery worker -l info
-    depends_on:
-      - redis
-      - postgres
   redis:
     image: redis:6.0.9
   postgres:
@@ -23,3 +8,16 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
       - POSTGRES_DB=queue
+  counter:
+    build: .
+    command: ./entrypoint.sh
+    ports:
+      - "5000:5000"
+    depends_on:
+      - celery
+  celery:
+    build: .
+    command: ./entrypoint_c.sh
+    depends_on:
+      - redis
+      - postgres

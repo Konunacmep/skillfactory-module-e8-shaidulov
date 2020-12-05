@@ -7,4 +7,10 @@ done
 echo "pg gotov";
 
 
-flask run --host=0.0.0.0
+# flask db init
+
+# flask db migrate
+
+flask db upgrade
+
+celery --app=app.celery worker -l info
