@@ -1,0 +1,10 @@
+Flask==1.1.2
+flask-wtf==0.14.2
+python-dotenv==0.15.0
+flask-sqlalchemy==2.4.4
+flask_migrate==2.5.3
+celery==5.0.2
+requests==2.25.0
+Psycopg2
+werkzeug==0.16.1
+redis

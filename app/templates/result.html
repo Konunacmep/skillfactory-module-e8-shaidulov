@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Результаты подсчета
+{% endblock %}
+
+{% block header %}
+    Результаты подсчета
+{% endblock %}
+
+{% block content %}
+    <table class="table table-striped table-hover table-sm" id="this-table">
+        <thead>
+          <tr class="0">
+            <th scope="col">Адрес</th>
+            <th scope="col">Количество python</th>
+            <th scope="col">http статус</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for res in results %}
+            <tr class="{{ res.id }}">
+                <td><p>{{ res.address }}</p></td>
+                <td><p>{{ res.words_count }}</p></td>
+                <td><p>{{ res.http_status_code }}</p></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        let checker = setInterval(function() {
+            let trs = document.querySelectorAll('tr');
+            res = Array();
+            trs.forEach(element => res.push(element.className))
+            fetch("{{ url_for('result_for_fetch') }}")
+                .then(response => response.json())
+                .then(data => {
+                    let table = document.getElementById("this-table");
+                    data.forEach(element => {
+                        if (!(res.includes(String(element.id)))) {
+                            let row = table.insertRow(1);
+                            row.setAttribute('class', element.id);
+                            row.insertCell(0).innerHTML = element.address;
+                            row.insertCell(1).innerHTML = element.words_count;
+                            row.insertCell(2).innerHTML = element.http_status_code;
+                        }
+                    });
+                })
+        }, 2000)
+    </script>
+{% endblock %}
+
+{% block nav %}
+    <a href="{{ url_for('index') }}">Снова ввести адреса</a>
+    <a href="{{ url_for('tasks') }}">Посмотреть список задач</a>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Результаты подсчета
+{% endblock %}
+
+{% block header %}
+    Задачи
+{% endblock %}
+
+{% block content %}
+    <table class="table table-striped table-hover table-sm" id="this-table">
+        <thead>
+          <tr>
+            <th scope="col">Адрес</th>
+            <th scope="col">Время</th>
+            <th scope="col">Статус</th>
+            <th scope="col">http статус</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td><p>{{ task.address }}</p></td>
+                <td><p>{{ task.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p></td>
+                <td><p>{{ task.task_status }}</p></td>
+                <td><p>{{ task.http_status }}</p></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block nav %}
+    <a href="{{ url_for('index') }}">Снова ввести адреса</a>
+    <a href="{{ url_for('result') }}">К списку результатов</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Введите адреса
+{% endblock %}
+
+{% block header %}
+    Адреса сайтов
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.sites.label }}<br>
+            {{ form.sites(class_="form-control") }}
+            {% for error in form.sites.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(class = "btn") }}</p>
+    </form>
+{% endblock %}
+
+{% block nav %}
+    <a href="{{ url_for('result') }}">К списку результатов</a>
+{% endblock %}
