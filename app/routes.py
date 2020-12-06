@@ -3,7 +3,10 @@ from app import app, db, celery
 from app.forms import SiteForm
 from .models import Results, Tasks, TaskStatus
 import requests
-
+import nsq
+import os
+import json
+# import tornado.ioloop
 
 @celery.task
 def py_counter(rec_id):
@@ -26,9 +29,17 @@ def py_counter(rec_id):
         task.task_status = TaskStatus.FINISHED
         db.session.commit()
     new_result['http_status_code'] = resp.status_code
-    new_result = Results(**new_result)
+
+    # data = json.dumps(new_result)
+    r = requests.post(url = f"http://{os.environ.get('HTTP_ADDRESSES')}/pub?topic={os.environ.get('TOPIC')}", json = new_result)
+    # writer = nsq.Writer([os.environ.get('TCP_ADDRESSES')])
+    # writer.pub(os.environ.get('TOPIC'), json.dumps(new_result))
+    # nsq.run()
+    print(f"put in nsq { r } {os.environ.get('HTTP_ADDRESSES')}/pub?topic={os.environ.get('TOPIC')}")
+
+    # new_result = Results(**new_result)
     task.http_status = resp.status_code
-    db.session.add(new_result)
+    # db.session.add(new_result)
     db.session.commit()
     return
 

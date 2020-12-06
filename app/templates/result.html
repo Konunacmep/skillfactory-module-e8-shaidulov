@@ -28,7 +28,7 @@
         </tbody>
     </table>
     <script>
-        let checker = setInterval(function() {
+        function drawer() {
             let trs = document.querySelectorAll('tr');
             res = Array();
             trs.forEach(element => res.push(element.className))
@@ -46,7 +46,9 @@
                         }
                     });
                 })
-        }, 2000)
+        }
+        drawer();
+        let a = setInterval(drawer, 2000);
     </script>
 {% endblock %}
 

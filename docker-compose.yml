@@ -18,6 +18,42 @@ services:
   celery:
     build: .
     command: ./entrypoint_c.sh
+    environment:
+      - HTTP_ADDRESSES=nsqd:4151
+      - TOPIC=nsq_topic
     depends_on:
       - redis
       - postgres
+      - nsqlookupd
+      - nsqd
+  consumer:
+    build: .
+    command: ./entrypoint_d.sh
+    environment:
+      - HTTP_ADDRESSES=nsqlookupd:4161
+      - TOPIC=nsq_topic
+    depends_on:
+      - postgres
+      - nsqlookupd
+      - nsqd
+  nsqlookupd:
+    image: nsqio/nsq
+    command: /nsqlookupd
+    ports:
+      - "4160:4160"
+      - "4161:4161"
+  nsqd:
+    image: nsqio/nsq
+    command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+    depends_on:
+      - nsqlookupd
+    ports:
+      - "4150:4150"
+      - "4151:4151"
+  # nsqadmin:
+  #   image: nsqio/nsq
+  #   command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+  #   depends_on:
+  #     - nsqlookupd  
+  #   ports:
+  #     - "4171:4171"

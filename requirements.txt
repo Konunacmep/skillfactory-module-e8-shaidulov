@@ -8,3 +8,4 @@ requests==2.25.0
 Psycopg2
 werkzeug==0.16.1
 redis
+pynsq

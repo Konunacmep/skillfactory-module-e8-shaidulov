@@ -21,3 +21,5 @@ ENV FLASK_RUN_HOST=0.0.0.0
 RUN chmod u+x ./entrypoint_c.sh 
 
 RUN chmod u+x ./entrypoint.sh
+
+RUN chmod u+x ./entrypoint_d.sh
